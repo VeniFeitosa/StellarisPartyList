@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -42,8 +43,7 @@ fun AppNavigation(navController: NavHostController, preferencesHelper: Preferenc
             if (filePath != null) {
                 val file = File(filePath)
                 if (file.exists()) {
-                    MainScreen(csvFile = file)
-                    Toast.makeText(LocalContext.current, filePath, Toast.LENGTH_SHORT).show()
+                    MainScreen(csvFile = file, navController)
                 } else {
                     // Exibir mensagem de erro: arquivo não encontrado
                     Toast.makeText(LocalContext.current, "Arquivo não encontrado!", Toast.LENGTH_SHORT).show()
@@ -52,7 +52,7 @@ fun AppNavigation(navController: NavHostController, preferencesHelper: Preferenc
             }
         }
         composable("settingsScreen") {
-            SettingsScreen(preferencesHelper)
+            SettingsScreen(preferencesHelper, navController)
         }
     }
 }

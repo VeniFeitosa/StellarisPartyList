@@ -3,9 +3,12 @@ package com.example.stellarispartylist.screen
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -15,8 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.stellarispartylist.R
 import com.example.stellarispartylist.components.PreferencesHelper
 import com.example.stellarispartylist.components.getRealPathFromUri
 import java.io.File
@@ -52,6 +57,12 @@ fun LoadSpreadsheetScreen(navController: NavController, preferencesHelper: Prefe
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        // inserir imagem
+        Image(
+            painter = painterResource(id = R.drawable.party_logo),
+            contentDescription = "Logo da festa"
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = { filePickerLauncher.launch("text/csv") },
             colors = ButtonDefaults.buttonColors(

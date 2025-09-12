@@ -1,9 +1,12 @@
 package com.example.stellarispartylist.components
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.database.Cursor
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import java.io.File
 
 fun Context.getRealPathFromUri(uri: Uri): String? {
@@ -34,5 +37,29 @@ fun Context.getRealPathFromUri(uri: Uri): String? {
             }
         }
         file.absolutePath
+    }
+}
+
+fun shareCsvFile(context: Context, filePath: String) {
+    val file = File(filePath)
+    if (file.exists()) {
+        // Cria um URI para o arquivo usando FileProvider
+        val fileUri: Uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider", // Deve corresponder ao authority no XML
+            file
+        )
+
+        // Cria o Intent para compartilhar o arquivo
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/csv" // Tipo MIME do arquivo
+            putExtra(Intent.EXTRA_STREAM, fileUri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Concede permissão de leitura
+        }
+
+        // Inicia a atividade de compartilhamento
+        context.startActivity(Intent.createChooser(shareIntent, "Compartilhar CSV"))
+    } else {
+        Toast.makeText(context, "Arquivo não encontrado!", Toast.LENGTH_SHORT).show()
     }
 }
